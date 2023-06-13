@@ -1679,3 +1679,26 @@ span.image.main {
 	/* border: 1px solid green; */
 	margin: 0;
 }
+
+article#explore button {
+	/* border: 1px solid blue; */
+	margin-left: 25px;
+}
+
+/* .iframe-container{
+	position: relative;
+	width: 100%;
+	padding-bottom: 56.25%; 
+	height: 0;
+  }
+  .iframe-container iframe{
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+  } */
+
+  input[type="date"]:focus::before {
+	content: "" !important;
+ }

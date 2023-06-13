@@ -438,6 +438,10 @@ function fetchExplore() {
 		});
 }
 
+// Media Fetch request for Random Section
+
+document.querySelector('article#discover button').addEventListener('click', fetchRandom)
+
 function fetchRandom(){
 	//Function to generate random number
 	function randomNumber(min, max) {
@@ -448,4 +452,47 @@ function fetchRandom(){
 	function isLeapYear(year) {
 		return ((year % 4 ===0) && (year % 100 !== 0)) || (year % 400 === 0);
 	}
+
+	//Get Random Date
+	function getRandomDate() {
+		let randomMonth = Math.round(randomNumber(1, 12));
+		let currentYear = new Date().getFullYear();
+		let randomYear =  Math.round(randomNumber(1995, currentYear));
+		let lastDay = (randomMonth === 2) ? (isLeapYear(randomYear) ? 29 : 28) : ([4, 6, 9, 11].includes(randomMonth) ? 30 : 31);
+		let randomDay = Math.round(randomNumber(1, lastDay));
+		//Format date according to API documentation 'YYYY-MM-DD"
+		let randomDate = `${randomYear}-${String(randomMonth).padStart(2, '0')}-${String(randomDay).padStart(2, '0')}`;
+		return randomDate
+	}
+
+const url = `https://api.nasa.gov/planetary/apod?api_key=XBOmg7s74EhagE6xaDMkyTZBbG3HxGdgO5AUL4fK&date=${getRandomDate()}`;
+
+fetch(url)
+	.then(res => res.json()) //parse response as JSON
+	.then(data => {
+		console.log(data)
+		if (data.media_type === 'image') {
+			document.querySelector('article#discover span.date').style.display = 'block'
+			document.querySelector('article#discover div').style.display = 'none'
+			document.querySelector('article#discover span.date').innerText = data.date
+			document.querySelector('article#discover iframe').style.display = 'block'
+			document.querySelector('article#discover img').src = data.hdurl
+			document.querySelector('article#discover h3').innerText = data.title
+			document.querySelector('article#discover p').innerText = data.explanation
+		
+		} else if (data.media_type === 'video') {
+			document.querySelector('article#discover span.date').style.display = 'block'
+			document.querySelector('article#discover span.date').innerText = data.date
+			document.querySelector('article#discover img').style.display = 'none'
+			document.querySelector('article#discover iframe').style.display = 'block'
+			document.querySelector('article#discover div').style.display = 'block'
+			document.querySelector('article#discover iframe').src = data.url
+			document.querySelector('article#discover h3').innerText = data.title
+		  	document.querySelector('article#discover p').innerText = data.explanation
+			document.querySelector('article#discover p').style.display = 'block'
+		}
+		})
+		.catch(err => {
+			console.log(`error ${err}`)
+	})
 }

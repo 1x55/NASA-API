@@ -437,3 +437,15 @@ function fetchExplore() {
 			console.log(`error ${err}`)
 		});
 }
+
+function fetchRandom(){
+	//Function to generate random number
+	function randomNumber(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	//Check if leap year, including the case fro century years
+	function isLeapYear(year) {
+		return ((year % 4 ===0) && (year % 100 !== 0)) || (year % 400 === 0);
+	}
+}

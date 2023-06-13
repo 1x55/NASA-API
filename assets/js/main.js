@@ -402,10 +402,38 @@
 
 //Media Fetch request for Explore Section
 
-document.querySelector('article#explore button').addEventListener('click, fetchExplore')
+document.querySelector('article#explore button').addEventListener('click', fetchExplore)
 
 function fetchExplore() {
 	const choice = document.querySelector('input.explore').value
 	console.log(choice)
-	const url = `https://api.nasa.gov/planetary/apod?api_key=XBOmg7s74EhagE6xaDMkyTZBbG3HxGdgO5AUL4fK/${choice}`
+	const url = `https://api.nasa.gov/planetary/apod?api_key=XBOmg7s74EhagE6xaDMkyTZBbG3HxGdgO5AUL4fK&date=${choice}`
+
+	fetch(url) 
+		.then(res => res.json()) //parse response as JSON
+		.then(data => { 
+			console.log(data)
+			if(data.media_type === 'image'){
+			//hide image and video before each new request using none and block
+			document.querySelector('article#explore iframe').style.display = 'none'
+			document.querySelector('article#explore div').style.display = 'none'
+			document.querySelector('article#explore img').style.display = 'block'
+        	document.querySelector('article#explore p').style.display = 'block'
+			document.querySelector('article#explore img').src = data.hdurl
+			document.querySelector('article#explore h3').innerText = data.title
+			document.querySelector('article#explore p').innerText = data.explanation
+		
+		} else if (data.media_type === 'video'){
+			document.querySelector('article#explore img').style.display = 'none'
+			document.querySelector('article#explore iframe').style.display = 'block'
+			document.querySelector('article#explore div').style.display = 'block'
+			document.querySelector('article#explore iframe').src = data.url
+			document.querySelector('article#explore h3').innerText = data.title
+			document.querySelector('article#explore p').innerText = data.explanation
+        	// document.querySelector('article#explore p').style.display = 'block'
+		}
+		}) 
+		.catch(err => {
+			console.log(`error ${err}`)
+		});
 }

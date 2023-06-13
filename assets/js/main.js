@@ -399,3 +399,13 @@
 					});
 
 })(jQuery);
+
+//Media Fetch request for Explore Section
+
+document.querySelector('article#explore button').addEventListener('click, fetchExplore')
+
+function fetchExplore() {
+	const choice = document.querySelector('input.explore').value
+	console.log(choice)
+	const url = `https://api.nasa.gov/planetary/apod?api_key=XBOmg7s74EhagE6xaDMkyTZBbG3HxGdgO5AUL4fK/${choice}`
+}

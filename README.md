@@ -3,6 +3,7 @@ Using NASA's Astronomy Picture of the Day (APOD) API to display stunning images 
 
 **Link to project:** https://nasacosmos.netlify.app//#
 
+![image](images/screenshot.png)
 
 ## How It's Made:
 
